@@ -26,12 +26,14 @@ public class MainRepository implements PresenterCompetitionsMain.Repository {
     private Context context;
     private AppDatabase db = App.getInstance().getDatabase();
     static ArrayList<Competition> competitionsCashes;
+
     public MainRepository(Activity mView) {
         context = mView;
     }
 
     @Override
     public void loadCompetitions(final PresenterCompetitionsMain.OnFinishedListener onFinishedListener) {
+
         if (Utils.isNetworkAvailable(context)) {
             Call<CompetitionList> mCall = RetrofitService.getInstance().getAllCompetitions();
             mCall.enqueue(new Callback<CompetitionList>() {
@@ -39,14 +41,17 @@ public class MainRepository implements PresenterCompetitionsMain.Repository {
                 public void onResponse(Call<CompetitionList> call, @NonNull Response<CompetitionList> response) {
 
                     ArrayList<Competition> res = (ArrayList<Competition>) response.body().getCompetitions();
-                    res = (sortCompetitions(res));
-
+                    res = (filterCompetitions(res));
 
                     final ArrayList<Competition> competitionsCashes = res;
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            db.CompetitionDao().update(competitionsCashes);
+                            int rows = db.CompetitionDao().update(competitionsCashes);
+                            if (rows == 0) {
+                                db.CompetitionDao().insert(competitionsCashes);
+                            }
+
                         }
                     }).start();
 
@@ -60,7 +65,6 @@ public class MainRepository implements PresenterCompetitionsMain.Repository {
             });
         }
         else {
-
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -75,9 +79,11 @@ public class MainRepository implements PresenterCompetitionsMain.Repository {
             }
             onFinishedListener.onFinished(competitionsCashes);
         }
+
     }
 
-    private ArrayList<Competition> sortCompetitions(ArrayList<Competition> competitions){
+    //we take events available on a free key
+    private ArrayList<Competition> filterCompetitions(ArrayList<Competition> competitions){
         ArrayList<Competition> result = new ArrayList<>();
         for (Competition c : competitions) {
             for(int i = 0; i < freeCompetitions.length ; i++){
@@ -86,7 +92,6 @@ public class MainRepository implements PresenterCompetitionsMain.Repository {
                 }
             }
         }
-
         return result;
     }
 

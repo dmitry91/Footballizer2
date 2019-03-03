@@ -1,5 +1,7 @@
 package com.dmitry.footballizer.ui.presenters;
 
+import android.support.v4.app.Fragment;
+
 import com.dmitry.footballizer.models.StandingsList;
 import com.dmitry.footballizer.repositorys.StandingRepository;
 import com.dmitry.footballizer.ui.interfaces.PresenterStandings;
@@ -11,7 +13,7 @@ public class StandingsPresenter implements PresenterStandings.Presenter, Present
 
     public StandingsPresenter(PresenterStandings.View mView) {
         this.mView = mView;
-        this.mRepository = new StandingRepository();
+        this.mRepository = new StandingRepository(((Fragment) mView).getActivity());
     }
 
     @Override

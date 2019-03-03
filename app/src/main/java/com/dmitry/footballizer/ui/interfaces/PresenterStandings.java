@@ -1,8 +1,6 @@
 package com.dmitry.footballizer.ui.interfaces;
 import com.dmitry.footballizer.models.StandingsList;
 
-import java.util.ArrayList;
-
 public interface PresenterStandings {
 
     interface View {

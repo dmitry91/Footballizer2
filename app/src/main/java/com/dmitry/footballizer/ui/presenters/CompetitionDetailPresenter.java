@@ -1,5 +1,7 @@
 package com.dmitry.footballizer.ui.presenters;
 
+import android.support.v4.app.Fragment;
+
 import com.dmitry.footballizer.models.Competition;
 import com.dmitry.footballizer.repositorys.CompetitionDetailsRepository;
 import com.dmitry.footballizer.ui.interfaces.PresenterCompetitionDetail;
@@ -11,7 +13,7 @@ public class CompetitionDetailPresenter implements PresenterCompetitionDetail.Pr
 
     public CompetitionDetailPresenter(PresenterCompetitionDetail.View mView) {
         this.mView = mView;
-        mRepository = new CompetitionDetailsRepository();
+        mRepository = new CompetitionDetailsRepository((Fragment)mView);
     }
 
     @Override

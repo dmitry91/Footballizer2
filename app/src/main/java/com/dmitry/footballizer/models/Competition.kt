@@ -1,8 +1,6 @@
 package com.dmitry.footballizer.models
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 
@@ -15,14 +13,15 @@ class Competition {
     var id:Int?=null;
     @SerializedName("name")
     var name:String?=null;
-    @Ignore
+    @Embedded
     @SerializedName("area")
     var area:Area?=null;
-    @Ignore
+    @Embedded
     @SerializedName("currentSeason")
     var currentSeason:CurrentSeason?=null;
 
     class Area {
+        @ColumnInfo(name = "area_name")
         @SerializedName("name")
         var name:String?=null;
     }

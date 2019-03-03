@@ -18,7 +18,7 @@ public interface CompetitionDao {
     void insert(ArrayList<Competition> competition);
 
     @Update
-    void update(ArrayList<Competition> competition);
+    int update(ArrayList<Competition> competition);
 
     @Delete
     void delete(ArrayList<Competition> competition);

@@ -60,18 +60,20 @@ public class StandingsFragment extends Fragment implements PresenterStandings.Vi
     private ArrayList<String> getAllCommands(StandingsList noticeArrayList){
         ArrayList<String> result = new ArrayList<>();
 
-        for(StandingsList.Standings s: standingsList.getStandings()){
-            if(s.getType().contains("TOTAL")) {
+        if (standingsList.getStandings() != null) {
+            for (StandingsList.Standings s : standingsList.getStandings()) {
+                if (s.getType().contains("TOTAL")) {
 
-                if (s.getGroup() != null) {
-                    String group = s.getGroup();
-                    result.add(group);
-                }
-                for (int i = 0; i < s.getTable().size(); i++) {
-                    String position = s.getTable().get(i).getPosition();
-                    String team = s.getTable().get(i).getTeam().getName();
-                    result.add(position + ". " + team);
+                    if (s.getGroup() != null) {
+                        String group = s.getGroup();
+                        result.add(group);
+                    }
+                    for (int i = 0; i < s.getTable().size(); i++) {
+                        String position = s.getTable().get(i).getPosition();
+                        String team = s.getTable().get(i).getTeam().getName();
+                        result.add(position + ". " + team);
 
+                    }
                 }
             }
         }
